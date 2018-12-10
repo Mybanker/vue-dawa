@@ -8,7 +8,7 @@ export const getInputSelection = (el) => {
     end = el.selectionEnd
   }
   else {
-    range = document.selection.createRange()
+    range = document.getSelection().getRangeAt(0)
 
     if (range && range.parentElement() === el) {
       len = el.value.length
