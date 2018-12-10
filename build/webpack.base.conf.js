@@ -1,14 +1,14 @@
 var path = require('path')
-var webpack = require('webpack');
-var config = require('../config');
-var cssUtils = require('./css-utils');
-var env = require('./env-utils');
-var merge = require('webpack-merge');
-var projectRoot = path.resolve(__dirname, '../');
-var ProgressBarPlugin = require('progress-bar-webpack-plugin');
+var webpack = require('webpack')
+var config = require('../config')
+var cssUtils = require('./css-utils')
+var env = require('./env-utils')
+var merge = require('webpack-merge')
+var projectRoot = path.resolve(__dirname, '../')
+var ProgressBarPlugin = require('progress-bar-webpack-plugin')
 var useCssSourceMap =
   (env.dev && config.dev.cssSourceMap) ||
-  (env.prod && config.build.productionSourceMap);
+  (env.prod && config.build.productionSourceMap)
 
 function resolve (dir) {
   return path.join(__dirname, '..', dir)
@@ -102,7 +102,7 @@ module.exports = {
       format: config.progressFormat
     })
   ]
-};
+}
 if (process.env.NODE_ENV === 'test') {
   // exclude NPM deps from test bundle
   module.exports.externals = [require('webpack-node-externals')()]

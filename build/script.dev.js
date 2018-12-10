@@ -2,13 +2,13 @@ process.env.NODE_ENV = 'development'
 
 require('colors')
 
-var express = require('express');
-var webpack = require('webpack');
-var config = require('../config');
-var opn = require('opn');
-var proxyMiddleware = require('http-proxy-middleware');
-var webpackConfig = require('./webpack.dev.conf');
-var app = express();
+var express = require('express')
+var webpack = require('webpack')
+var config = require('../config')
+var opn = require('opn')
+var proxyMiddleware = require('http-proxy-middleware')
+var webpackConfig = require('./webpack.dev.conf')
+var app = express()
 var port = process.env.PORT || config.dev.port
 var uri = 'http://localhost:' + port
 

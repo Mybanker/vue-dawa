@@ -19,7 +19,7 @@ const webpackConfig = {
       }
     ]
   }
-};
+}
 
 // no need for app entry during tests
 // delete webpackConfig.entry;

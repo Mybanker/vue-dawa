@@ -67,7 +67,7 @@ function getSize (size) {
   return (size / 1024).toFixed(2) + 'kb'
 }
 
-module.exports.purify = function(cb) {
+module.exports.purify = function (cb) {
   var css = glob.sync(path.join(__dirname, '../dist/**/*.css'))
   var js = glob.sync(path.join(__dirname, '../dist/**/*.js'))
 
@@ -87,5 +87,5 @@ module.exports.purify = function(cb) {
       })
     })
   }))
-  .then(cb)
+    .then(cb)
 }
