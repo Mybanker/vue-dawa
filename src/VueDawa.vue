@@ -14,8 +14,9 @@
                 @keydown.left="search()"
                 @keydown.right="search()"
                 @keyup.enter="enter()"
-                @keydown.down = "down()"
-                @keydown.up = "up()"
+                @keydown.tab.prevent="enter()"
+                @keydown.down.prevent = "down()"
+                @keydown.up.prevent = "up()"
                 @keydown.esc="emptyResultsList()"
                 @blur="inputFocused = false">
         <slot name="label-bottom"></slot>
@@ -28,7 +29,7 @@
                 :ref="'result_' + index"
                 @click.prevent="select(result)"
                 @enter.prevent="select(result)">
-                {{result.tekst}}
+                {{ prettyAddress(result.forslagstekst) }}
             </li>
         </ul>
       </form>
@@ -168,24 +169,31 @@
         }
         let max = this.showMax ? this.showMax : results.length
         this.$set(this, 'results', results.slice(0, max))
+
         this.$nextTick(() => {
           let resultsList = document.getElementById(this.containerId + '_' + 'results')
           if (resultsList) {
             this.listHeight = resultsList.getBoundingClientRect().height
           }
         })
+
         if (this.results.length === 1 && this.initActions) {
           this.select(this.results[0])
           this.initActions = false
         }
+
+        if (this.results.length === 1 && !this.initActions && this.results[0].tekst.length == this.terms.length) {
+          this.select(this.results[0])
+
       },
       select (item) {
         if (!item) {
           return
         }
+
         this.$emit('select', item)
         this.$set(this, 'selectedResult', item)
-        this.terms = this.selectedResult.tekst
+        this.terms = this.prettyAddress(item.forslagstekst)
         this.caretPos = item.caretpos
         this.inputFocused = true
         this.setCaretPosition(this.caretPos)
@@ -215,8 +223,8 @@
         this.scrollToResult(this.currentIndex)
       },
       scrollToResult (index) {
-        let el = document.getElementById(`result_${index}`)
-        el.scrollIntoView(this.listScrollBehavior)
+        // let el = document.getElementById(`result_${index}`)
+        // el.scrollIntoView(this.listScrollBehavior)
       },
       // For highlighting element
       isActive (index) {
@@ -255,14 +263,19 @@
         if ((e.target !== this.$refs.input && e.target !== this.$refs.resultsList) || !el.contains(e.target)) {
           this.emptyResultsList()
         }
+      },
+      prettyAddress (address) {
+        let prettyAdress = address.split('\n')
+        prettyAdress = prettyAdress.map(row => row.replace(/ /g, '\u00a0'))
+        return prettyAdress.join(', ')
       }
     },
     watch: {
-      val (newVal) {
+      val (newVal, oldVal) {
         this.terms = newVal
         this.setCaretPosition(this.caretPos)
       },
-      terms (newVal) {
+      terms (newVal, oldVal) {
         this.$emit('inputChanged', newVal)
       },
       listHeight (newVal) {
@@ -274,14 +287,17 @@
       if (this.addressId && this.initActions) {
         this.dawaService.selectInitial(this.addressId)
       }
+      else {
+        this.initActions = false
+      }
     },
     mounted () {
       document.addEventListener('click', this.handleClickOutside, true)
-      document.addEventListener('focus', this.handleClickOutside, true)
+      document.addEventListener('blur', this.handleClickOutside, true)
     },
     beforeDestroy () {
       document.removeEventListener('click', this.handleClickOutside, true)
-      document.removeEventListener('focus', this.handleClickOutside, true)
+      document.removeEventListener('blur', this.handleClickOutside, true)
     }
   }
 </script>
