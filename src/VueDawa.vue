@@ -181,7 +181,7 @@
           this.select(this.results[0])
           this.initActions = false
         }
-        if (this.results.length === 1 && !this.initActions && this.results[0].tekst.length === this.terms.length) {
+        if (this.results.length === 1 && !this.initActions && this.results[0].forslagstekst.length === this.terms.length) {
           this.select(this.results[0])
         }
       },
