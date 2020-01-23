@@ -1,5 +1,6 @@
 <template>
     <div class="autocomplete-container" :class="containerClasses" :id="containerId"  ref="container">
+      <span>WWWWW</span>
       <form @submit.prevent autocomplete="off">
         <slot name="label-top"></slot>
         <input type="text" ref="input" :class="fieldClasses"
@@ -13,7 +14,7 @@
                 @focus="search()"
                 @keydown.left="search()"
                 @keydown.right="search()"
-                @keyup.enter="enter()"
+                @keydown.enter.prevent="enter()"
                 @keydown.tab.prevent="enter()"
                 @keydown.down.prevent = "down()"
                 @keydown.up.prevent = "up()"
