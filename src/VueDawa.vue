@@ -13,7 +13,7 @@
                 @focus="search()"
                 @keydown.left="search()"
                 @keydown.right="search()"
-                @keyup.enter="enter()"
+                @keydown.enter.prevent="enter()"
                 @keydown.tab.prevent="enter()"
                 @keydown.down.prevent = "down()"
                 @keydown.up.prevent = "up()"
